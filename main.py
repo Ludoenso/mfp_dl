@@ -35,15 +35,19 @@ def load_songs():
 
                 for k in j :
 
+                    # BUG HERE
                     if k.tag == "comments":
 
-                        tab_song['title'] = k.title
+                        tab_song['url'] = k.text
 
-                        tab_song['url'] = k.comments
+                    elif k.tag == "title":
+
+                        tab_song['title'] = k.text
 
                         tab_songs.append(tab_song)
-
     return tab_songs
+
+
 
 def download_songs():
 
@@ -54,13 +58,19 @@ def download_songs():
         ## Download the song and store it into the variable
         song_music = download_url(song['url'])
 
+        print("TEST")
+
+        print(song['title'])
+
         if not os.path.isfile(DIR_PATH + song['title']):
 
-            with open("{}".format(song['title']),"wb") as file :
-
-                for chunk in song_music.iter_content(chunk_size = 1024):
-
-                    file.write(chunk)
+            print("TEST2")
+            #
+            # with open(DIR_PATH + "{}".format(song['title']),"wb") as file :
+            #
+            #     for chunk in song_music.iter_content(chunk_size = 1024):
+            #
+            #         file.write(chunk)
 
 
 def __main__():
