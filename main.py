@@ -3,31 +3,32 @@
 import requests
 import xml.etree.ElementTree as ET
 import os.path
+import filecmp
 
 MFP_URL = "http://musicforprogramming.net/rss.php"
 
+MFP_XML = ""
+
 DIR_PATH = "/media/Multimedia/Music/MusicForProgramming/"
 
-def get_url(url):
+tab_song_url = []
 
-    return requests.get(url).text
+tab_song_title = []
+
+def get_url2xml(url):
+
+    return ET.fromstring(requests.get(url).text)
 
 def download_url(url):
 
     return requests.get(url,stream=True)
 
-def load_songs():
 
-    tab_songs = []
+# Append the url of the song into the tab_song
+# dictionnary
+def load_song_url(xml):
 
-    tab_song = {
-        "title" : "",
-        "url"   : ""
-    }
-
-    request_xml = ET.fromstring(get_url(MFP_URL))
-
-    for i in request_xml:
+    for i in xml:
 
         for j in i:
 
@@ -35,45 +36,49 @@ def load_songs():
 
                 for k in j :
 
-                    # BUG HERE
                     if k.tag == "comments":
 
-                        tab_song['url'] = k.text
+                        tab_song_url.append(k.text)
 
-                    elif k.tag == "title":
+# Append the title of the song into the tab_song
+# dictionnary
+def load_song_name(xml):
 
-                        tab_song['title'] = k.text
+    for i in xml:
 
-                        tab_songs.append(tab_song)
-    return tab_songs
+        for j in i:
+
+            if j.tag == "item":
+
+                for k in j :
+
+                    if k.tag == "title":
+
+                        tab_song_title.append(k.text)
 
 
-
+# If the name of the song is not in the directory download it.
 def download_songs():
 
-    tab_songs = load_songs()
-
-    for song in tab_songs:
+    for i in range(0,len(tab_song_url)):
 
         ## Download the song and store it into the variable
-        song_music = download_url(song['url'])
+        song_file = download_url(tab_song_url[i])
 
-        print("TEST")
+        if not os.path.isfile(DIR_PATH + tab_song_title[i]):
 
-        print(song['title'])
+            with open(DIR_PATH + "{}".format(tab_song_title[i]),"wb") as file :
 
-        if not os.path.isfile(DIR_PATH + song['title']):
+                for chunk in song_file.iter_content(chunk_size = 1024):
 
-            print("TEST2")
-            #
-            # with open(DIR_PATH + "{}".format(song['title']),"wb") as file :
-            #
-            #     for chunk in song_music.iter_content(chunk_size = 1024):
-            #
-            #         file.write(chunk)
-
-
+                    file.write(chunk)
 def __main__():
+
+    MFP_XML = get_url2xml(MFP_URL)
+
+    load_song_url(MFP_XML)
+
+    load_song_name(MFP_XML)
 
     download_songs()
 
