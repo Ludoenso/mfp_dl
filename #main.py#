@@ -60,6 +60,9 @@ def load_song_name(xml):
 
                         string += ".mp3"
 
+
+                        print(string)
+
                         tab_song_title.append(string)
 
 
