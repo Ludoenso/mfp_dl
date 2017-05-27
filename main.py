@@ -1,4 +1,12 @@
 #!/bin/python3
+#Todo :
+# - Make is download any RSS feed
+# - Dynamicly fix title name for file system
+# - Be able to add arguments to set the recurence of the download
+# - Be able to set the path to download to
+# - Find a way to sync it to a device e.g. Phone
+
+
 
 import requests
 import xml.etree.ElementTree as ET
