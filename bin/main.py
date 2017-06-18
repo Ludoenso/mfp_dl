@@ -12,20 +12,40 @@ import requests
 import xml.etree.ElementTree as ET
 import os.path
 import filecmp
+import argparse
 
-MFP_URL = "http://musicforprogramming.net/rss.php"
+URL = ""
+# URL = "http://musicforprogramming.net/rss.php"
 
-MFP_XML = ""
+XML = ""
 
-DIR_PATH = "/media/Multimedia/Music/MusicForProgramming/"
+DIR_PATH = ""
+
+# DIR_PATH = "/media/Multimedia/Music/MusicForProgramming/"
 
 tab_song_url = []
 
 tab_song_title = []
 
+def get_argv():
+    # https://docs.python.org/3.3/library/argparse.html
+    parser = argparse.ArgumentParser(description="""Specify the URL and the path
+                                                directory""")
+
+    parser.add_argument('directory', metavar="DIR_PATH", type = string, nargs=1)\
+
+
+
+    ''
 def get_url2xml(url):
 
+    print(url)
+
     return ET.fromstring(requests.get(url).text)
+
+
+
+
 
 def download_url(url):
 
@@ -35,6 +55,8 @@ def download_url(url):
 # Append the url of the song into the tab_song
 # dictionnary
 def load_song_url(xml):
+
+    # Add validation for presence of XML variable.
 
     for i in xml:
 
@@ -88,13 +110,17 @@ def download_songs():
                     file.write(chunk)
 def __main__():
 
-    MFP_XML = get_url2xml(MFP_URL)
+    get_argv()
 
-    load_song_url(MFP_XML)
+    print("Printing URL : " + URL)
 
-    load_song_name(MFP_XML)
+    XML = get_url2xml(URL)
 
-    download_songs()
+    load_song_url(XML)
+
+    load_song_name(XML)
+
+    # download_songs()
 
 
 if __name__ :
