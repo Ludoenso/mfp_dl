@@ -1,2 +1,3 @@
-# mfp_dl
-Download MusicForProgramming's track from the site
+# rss_dl
+Download RSS feed from website
+
