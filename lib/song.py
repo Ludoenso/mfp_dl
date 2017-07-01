@@ -9,4 +9,4 @@ class song(object):
 
         self.name = self.convert_name()
 
-    def convert_name(self)
+    def convert_name(self):
