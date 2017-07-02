@@ -33,20 +33,14 @@ def get_argv():
     parser = argparse.ArgumentParser(description="""Specify the URL and the path
                                                 directory""")
 
-    parser.add_argument('directory', metavar="DIR_PATH", type = string, nargs=1)\
+    parser.add_argument('directory', metavar="DIR_PATH", type = string, nargs=1)
 
 
-
-    ''
 def get_url2xml(url):
 
     print(url)
 
     return ET.fromstring(requests.get(url).text)
-
-
-
-
 
 def download_url(url):
 
