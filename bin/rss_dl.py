@@ -1,9 +1,6 @@
 #!/bin/python3
 # Todo :
-# - Make is download any RSS feed
-# - Dynamicly fix title name for file system
 # - Be able to add arguments to set the recurence of the download
-# - Be able to set the path to download to
 # - Find a way to sync it to a device e.g. Phone
 
 
@@ -62,7 +59,7 @@ def load_song_url(xml):
                 for k in j:
 
                     if k.tag == "comments":
-                        
+
                         tab_song_url.append(k.text)
 
 # Append the title of the song into the tab_song
